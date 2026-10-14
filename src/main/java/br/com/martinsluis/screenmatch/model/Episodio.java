@@ -1,17 +1,25 @@
 package br.com.martinsluis.screenmatch.model;
 
 import br.com.martinsluis.screenmatch.model.dto.DadosEpisodioDTO;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+@Entity
+@Table(name = "episodios")
 public class Episodio {
+    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Integer temporada;
     private String titulo;
     private Integer numeroEpisodio;
     private Double avaliacao;
     private LocalDate dataLancamento;
+
+    @ManyToOne
+    private Serie serie;
 
     public Episodio(Integer numeroTemporada, DadosEpisodioDTO dadosEpisodio) {
         this.temporada = numeroTemporada;
@@ -21,6 +29,22 @@ public class Episodio {
         try {this.avaliacao = Double.valueOf(dadosEpisodio.avaliacao());} catch (NumberFormatException ex){ this.avaliacao = 0.0;}
 
         try {this.dataLancamento = LocalDate.parse(dadosEpisodio.dataLancamento());} catch (DateTimeParseException ex){this.dataLancamento = null;}
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Serie getSerie() {
+        return serie;
+    }
+
+    public void setSerie(Serie serie) {
+        this.serie = serie;
     }
 
     public Integer getTemporada() {
