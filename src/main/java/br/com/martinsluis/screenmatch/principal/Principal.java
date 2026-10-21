@@ -1,6 +1,7 @@
 package br.com.martinsluis.screenmatch.principal;
 
 import br.com.martinsluis.screenmatch.model.Episodio;
+import br.com.martinsluis.screenmatch.model.Generos;
 import br.com.martinsluis.screenmatch.model.Serie;
 import br.com.martinsluis.screenmatch.model.dto.DadosSerieDTO;
 import br.com.martinsluis.screenmatch.model.dto.DadosTemporadaDTO;
@@ -43,6 +44,7 @@ public class Principal {
                     4 - Buscar série por título
                     5 - Buscar série por ator
                     6 - Top 5 Séries
+                    7 - Buscar séries por gênero
                     
                     0 - Sair                                 
                     """;
@@ -69,6 +71,9 @@ public class Principal {
                     break;
                 case 6:
                     buscarTop5Series();
+                    break;
+                case 7:
+                    buscarSeriePorGenero();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -162,5 +167,14 @@ public class Principal {
         List<Serie> seriesTop = serieRepository.findTop5ByOrderByAvaliacaoDesc();
         seriesTop.forEach(s ->
                 System.out.println(s.getTitulo() + " avaliação: " + s.getAvaliacao()));
+    }
+
+    private void buscarSeriePorGenero() {
+        System.out.println("Deseja buscar séries de qual gênero?");
+        var nomGenero = leitura.nextLine();
+        Generos genero = Generos.fromPortugues(nomGenero);
+        List<Serie> seriesPorGenero = serieRepository.findByGenero(genero);
+        System.out.println("Séries do gênero: " + nomGenero);
+        seriesPorGenero.forEach(System.out::println);
     }
 }
