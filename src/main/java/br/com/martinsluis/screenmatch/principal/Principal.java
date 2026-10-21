@@ -146,7 +146,9 @@ public class Principal {
     private void buscarSeriePorAtor() {
         System.out.println("Qual o nome para a busca:");
         var nomeAtor = leitura.nextLine();
-        List<Serie> serieEncontradas = serieRepository.findByAtoresContainingIgnoreCase(nomeAtor);
+        System.out.println("Avaliações a partir de qual nota? ");
+        var avaliacao = leitura.nextDouble();
+        List<Serie> serieEncontradas = serieRepository.findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(nomeAtor, avaliacao);
         System.out.println("Séries em que " + nomeAtor + " tabalhou");
         serieEncontradas.forEach(s ->
                 System.out.println(s.getTitulo() + " avaliação: " + s.getAvaliacao()));
