@@ -41,6 +41,7 @@ public class Principal {
                     2 - Buscar episódios
                     3 - Listar séries buscadas
                     4 - Buscar série por título
+                    5 - Buscar série por ator
                     
                     0 - Sair                                 
                     """;
@@ -61,6 +62,9 @@ public class Principal {
                     break;
                 case 4:
                     buscarSeriePorTitulo();
+                    break;
+                case 5:
+                    buscarSeriePorAtor();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -136,5 +140,15 @@ public class Principal {
         } else {
             System.out.println("Série não encontrada");
         }
+    }
+
+
+    private void buscarSeriePorAtor() {
+        System.out.println("Qual o nome para a busca:");
+        var nomeAtor = leitura.nextLine();
+        List<Serie> serieEncontradas = serieRepository.findByAtoresContainingIgnoreCase(nomeAtor);
+        System.out.println("Séries em que " + nomeAtor + " tabalhou");
+        serieEncontradas.forEach(s ->
+                System.out.println(s.getTitulo() + " avaliação: " + s.getAvaliacao()));
     }
 }
