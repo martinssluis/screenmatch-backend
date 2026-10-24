@@ -1,5 +1,6 @@
 package br.com.martinsluis.screenmatch.repository;
 
+import br.com.martinsluis.screenmatch.model.Episodio;
 import br.com.martinsluis.screenmatch.model.Generos;
 import br.com.martinsluis.screenmatch.model.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +24,6 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     @Query("select s from Serie s WHERE s.totalTemporadas <= :totalTemporadas AND s.avaliacao >= :avaliacao")
     List<Serie> seriesPorTemporadaEAvaliacao(int totalTemporadas, double avaliacao);
 
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:trechoEpisodio%")
+    List<Episodio> episodiosPorTrecho(String trechoEpisodio);
 }
